@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">PomodoroTasks</string>
+    <string name="enter_task_hint">Task name</string>
+    <string name="enter_task_pause">Pause</string>
+    <string name="enter_task_start">Start</string>
+    <string name="enter_task_finish">Finish</string>
+    <string name="no_task_entered">Please enter task</string>
+    <string name="timer_initial_value">00:00</string>
+</resources>
