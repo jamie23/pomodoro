@@ -1,23 +1,25 @@
 package jamie.pomodorotasks.WorkMode.domain.interactor;
 
 import io.reactivex.Observable;
+import jamie.pomodorotasks.WorkMode.domain.Response;
 import jamie.pomodorotasks.WorkMode.domain.Task;
 import jamie.pomodorotasks.WorkMode.domain.executor.PostExecutionThread;
 import jamie.pomodorotasks.WorkMode.domain.executor.ThreadExecutor;
+import jamie.pomodorotasks.WorkMode.domain.repository.TaskRepository;
 import jamie.pomodorotasks.data.repository.datasource.TaskDataStore;
 
-public class SaveTask extends UseCase<Void, Task> {
-    private final TaskDataStore taskDataStore;
+public class SaveTask extends UseCase<Response, Task> {
+    private final TaskRepository taskRepository;
 
-    public SaveTask(TaskDataStore taskDataStore,
+    public SaveTask(TaskRepository repository,
                     ThreadExecutor threadExecutor,
                     PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
-        this.taskDataStore = taskDataStore;
+        this.taskRepository = repository;
     }
 
     @Override
-    Observable<Void> buildUseCaseObservable(Task task) {
-        return taskDataStore.saveNewTask(task);
+    Observable<Response> buildUseCaseObservable(Task task) {
+        return taskRepository.saveTask(task);
     }
 }
