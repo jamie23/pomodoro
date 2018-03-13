@@ -19,7 +19,7 @@ public class SaveTask extends UseCase<Response, Task> {
     }
 
     @Override
-    Observable<Response> buildUseCaseObservable(Task task) {
+    public Observable<Response> buildUseCaseObservable(Task task) {
         return taskRepository.saveTask(task);
     }
 }
