@@ -1,6 +1,7 @@
 package jamie.pomodorotasks.WorkMode.domain.interactor;
 
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
 import jamie.pomodorotasks.WorkMode.domain.Response;
 import jamie.pomodorotasks.WorkMode.domain.Task;
 import jamie.pomodorotasks.WorkMode.domain.executor.PostExecutionThread;
@@ -12,7 +13,7 @@ public class SaveTask extends UseCase<Response, Task> {
     private final TaskRepository taskRepository;
 
     public SaveTask(TaskRepository repository,
-                    ThreadExecutor threadExecutor,
+                    Scheduler threadExecutor,
                     PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         this.taskRepository = repository;

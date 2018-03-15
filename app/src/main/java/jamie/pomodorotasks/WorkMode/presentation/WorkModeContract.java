@@ -15,6 +15,7 @@ public interface WorkModeContract {
     }
 
     interface Presenter {
+        void initialise();
         void setView(WorkModeContract.View view);
         void btn1Clicked();
         void btn2Clicked();

@@ -7,7 +7,7 @@ import jamie.pomodorotasks.WorkMode.domain.Response;
 import jamie.pomodorotasks.WorkMode.domain.Task;
 
 public class DiskTaskDataStore implements TaskDataStore {
-    ArrayList<Task> taskDataStore;
+    private ArrayList<Task> taskDataStore;
 
     @Override
     public Observable<Response> saveNewTask(Task task) {

@@ -16,6 +16,7 @@
 package jamie.pomodorotasks.WorkMode.domain.interactor;
 
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -34,11 +35,11 @@ import jamie.pomodorotasks.WorkMode.domain.executor.ThreadExecutor;
  */
 public abstract class UseCase<T, Params> {
 
-  private final ThreadExecutor threadExecutor;
+  private final Scheduler threadExecutor;
   private final PostExecutionThread postExecutionThread;
   private final CompositeDisposable disposables;
 
-  UseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+  UseCase(Scheduler threadExecutor, PostExecutionThread postExecutionThread) {
     this.threadExecutor = threadExecutor;
     this.postExecutionThread = postExecutionThread;
     this.disposables = new CompositeDisposable();
@@ -58,7 +59,7 @@ public abstract class UseCase<T, Params> {
    */
   public void execute(@NonNull DisposableObserver<T> observer, Params params) {
     final Observable<T> observable = this.buildUseCaseObservable(params)
-        .subscribeOn(Schedulers.from(threadExecutor))
+        .subscribeOn(threadExecutor)
         .observeOn(postExecutionThread.getScheduler());
     addDisposable(observable.subscribeWith(observer));
   }

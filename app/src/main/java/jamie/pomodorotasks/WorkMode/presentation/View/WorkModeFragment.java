@@ -50,6 +50,7 @@ public class WorkModeFragment extends Fragment implements WorkModeContract.View 
         View view = inflater.inflate(R.layout.fragment_work_mode, container, false);
         ButterKnife.bind(this, view);
         presenter.setView(this);
+        presenter.initialise();
         return view;
     }
 

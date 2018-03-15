@@ -2,22 +2,36 @@ package jamie.pomodorotasks.WorkMode.presentation.Presenter;
 
 import android.util.Log;
 
+import org.joda.time.DateTime;
+
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
+import jamie.pomodorotasks.WorkMode.domain.Task;
+import jamie.pomodorotasks.WorkMode.domain.interactor.SaveTask;
+import jamie.pomodorotasks.WorkMode.presentation.UIThread;
 import jamie.pomodorotasks.WorkMode.presentation.WorkModeContract;
+import jamie.pomodorotasks.data.repository.TaskDataRepository;
+import jamie.pomodorotasks.data.repository.datasource.TaskDataStoreFactory;
 
 public class WorkModePresenter implements WorkModeContract.Presenter {
     WorkModeContract.View view;
     private boolean isStarted = false;
+    private SaveTask saveTask;
 
     public void setView(WorkModeContract.View view) {
         this.view = view;
     }
 
+    public void initialise() {
+        saveTask = new SaveTask(new TaskDataRepository(new TaskDataStoreFactory()),
+                                Schedulers.io(),
+                                new UIThread());
+    }
     @Override
     public void btn1Clicked() {
 
@@ -61,6 +75,7 @@ public class WorkModePresenter implements WorkModeContract.Presenter {
                     @Override
                     public void onComplete() {
                         view.notifyTaskFinished();
+                        saveTask.buildUseCaseObservable(new Task(view.getTaskName(), new DateTime()));
                         initaliseStartState();
                     }
                 });
